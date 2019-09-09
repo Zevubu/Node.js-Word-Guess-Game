@@ -1,0 +1,19 @@
+{
+  "name": "node.js-word-guess-game",
+  "version": "1.0.0",
+  "description": "A word guess game that works through node.js.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Zevubu/Node.js-Word-Guess-Game.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Zevubu/Node.js-Word-Guess-Game/issues"
+  },
+  "homepage": "https://github.com/Zevubu/Node.js-Word-Guess-Game#readme"
+}
