@@ -3,11 +3,13 @@ let inquirer = require("inquirer")
 
 // array of alphabet
 let alphaString = "abcdefghijklmnopqrstuvwxyz"
-
+// list of words.
+// I may want to change this to and editable addable folder at a later date.
+let wordOptions = ["Devine","Polyester","Pink Flamingos","Mary Vivian Pearce","Cookie Mueller","Susan Walsh","David Lochary","Mink Stole","Desperate Living","Female Trouble","Edith Massey"];
 // Variables
-let randomIndexer;
-let randomWord;
-let chosenWord;
+let randomIndexer = Math.floor(Math.random()*wordOptions.length);
+let randomWord = wordOptions[randomIndexer];
+let chosenWord = new Word(randomWord);
 
 let requireNewWord = false;
 
@@ -17,9 +19,7 @@ let correctLetters = [];
 let guessesLeft = 10;
 
 
-// list of words.
-// I may want to change this to and editable addable folder at a later date.
-let wordOptions = ["Devine","Polyester","Pink Flamingos","Mary Vivian Pearce","Cookie Mueller","Susan Walsh","David Lochary","Mink Stole","Desperate Living","Female Trouble","Edith Massey"];
+
 
 
 
@@ -39,10 +39,10 @@ let initializeGame = function(){
     }
 
     // if statment to intiate inquirer.
-    let wordComplete = [];
+    let wordComplete=[]
     chosenWord.lettArray.forEach(completeCheck);
 
-    if (wordComplete.includes(false)) {
+    if (wordComplete != randomWord) {
         inquirer
             .prompt([
                 {
@@ -73,7 +73,22 @@ let initializeGame = function(){
                         incorrectLetters.push(input.userInput);
                         guessesLeft--;
                     }else{
-                        console.log("\n Correct")
+                        console.log("\n Correct \n");
+
+                        correctLetters.push(input.userInput);
+                    };
+
+                    chosenWord.log();
+
+                    console.log(`Guesses Left: ${guessesLeft} \n`);
+
+                    console.log(` Letters Guessed: ${incorrectLetters.join(",")} \n`);
+
+                    if (guessesLeft > 0){
+                        initializeGame()
+                    } else {
+                        console.log("You lost the Game!");
+                        resartGame();
                     }
 
 
@@ -81,20 +96,36 @@ let initializeGame = function(){
                 }
 
             })
+    } else{
+        console.log("You won!\n");
+        resartGame();
     }
-
-
-
-
-
-
-
 }
 
     
-
-    
-
-
 // function restart game.
+let resartGame = function(){
+    inquirer
+        .prompt([
+            {
+                type: "list",
+                message: "Would you like to play again?",
+                choices: [ "Play Again", "Exit"],
+                name: "restart"
+            }
+        ])
+        .then (function(input){
+            if (input.restart === "Play Again"){
+                requireNewWord = true;
+                incorrectLetters = [];
+                correctLetters = [];
+                guessesLeft = 10;
+                initializeGame();
+            }else{
+                return
+            }
+        })
+}
+
+initializeGame();
 
