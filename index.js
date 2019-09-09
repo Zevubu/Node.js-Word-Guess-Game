@@ -52,7 +52,34 @@ let initializeGame = function(){
                 }
             ])
             .then(function(input){
-                
+
+              
+                if (incorrectLetters.includes(input.userInput) || correctLetters.includes(input.userInput) || input.userInput === ""){
+                    console.log("\n You either already guessed that or didn't enter anything.")
+                    initializeGame()
+                } else{
+                    let wordCheckArray = [];
+                    let wordCheck = function(key){
+                        wordCheckArray.push(key.guessed)
+                    }
+
+                    chosenWord.userGuess(input.userInput);
+
+                    chosenWord.lettArray.forEach(wordCheck);
+
+                    if(wordCheckArray.join('') === wordComplete.join('')){
+                        console.log("\n Incorrect \n");
+
+                        incorrectLetters.push(input.userInput);
+                        guessesLeft--;
+                    }else{
+                        console.log("\n Correct")
+                    }
+
+
+
+                }
+
             })
     }
 
