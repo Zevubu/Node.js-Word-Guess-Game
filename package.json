@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/Zevubu/Node.js-Word-Guess-Game/issues"
   },
-  "homepage": "https://github.com/Zevubu/Node.js-Word-Guess-Game#readme"
+  "homepage": "https://github.com/Zevubu/Node.js-Word-Guess-Game#readme",
+  "dependencies": {
+    "inquirer": "^7.0.0"
+  }
 }
