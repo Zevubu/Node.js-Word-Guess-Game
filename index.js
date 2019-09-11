@@ -1,13 +1,13 @@
-let Word = require("./word")
+let Word = require("./word.js")
 let inquirer = require("inquirer")
 
 // array of alphabet
-let alphaString = "abcdefghijklmnopqrstuvwxyz"
+let letterArray = "abcdefghijklmnopqrstuvwxyz"
 // list of words.
 // I may want to change this to and editable addable folder at a later date.
-let wordOptions = ["Devine","Polyester","Pink Flamingos","Mary Vivian Pearce","Cookie Mueller","Susan Walsh","David Lochary","Mink Stole","Desperate Living","Female Trouble","Edith Massey"];
+let wordOptions = ["devine","polyester","pink flamingos","mary vivian pearce","cookie mueller","susan walsh","david lochary","mink stole","desperate living","female trouble","edith massey"];
 // Variables
-let randomIndexer = Math.floor(Math.random()*wordOptions.length);
+let randomIndexer = Math.floor(Math.random() * wordOptions.length);
 let randomWord = wordOptions[randomIndexer];
 let chosenWord = new Word(randomWord);
 
@@ -24,12 +24,12 @@ let guessesLeft = 10;
 
 
 // function 
-let initializeGame = function(){
+function initializeGame(){
     
     // random word picker
     if (requireNewWord){
         // selects a random word.
-        randomIndexer = Math.floor(Math.random()*wordOptions.length);
+        randomIndexer = Math.floor(Math.random() * wordOptions.length);
         randomWord = wordOptions[randomIndexer];
 
         // passes random word through word.js
@@ -39,10 +39,10 @@ let initializeGame = function(){
     }
 
     // if statment to intiate inquirer.
-    let wordComplete=[]
+    let wordComplete = [];
     chosenWord.lettArray.forEach(completeCheck);
 
-    if (wordComplete != randomWord) {
+    if (wordComplete.includes(false)) {
         inquirer
             .prompt([
                 {
@@ -52,53 +52,59 @@ let initializeGame = function(){
                 }
             ])
             .then(function(input){
-
-              
-                if (incorrectLetters.includes(input.userInput) || correctLetters.includes(input.userInput) || input.userInput === ""){
-                    console.log("\n You either already guessed that or didn't enter anything.")
-                    initializeGame()
-                } else{
-                    let wordCheckArray = [];
-                    let wordCheck = function(key){
-                        wordCheckArray.push(key.guessed)
-                    }
-
-                    chosenWord.userGuess(input.userInput);
-
-                    chosenWord.lettArray.forEach(wordCheck);
-
-                    if(wordCheckArray.join('') === wordComplete.join('')){
-                        console.log("\n Incorrect \n");
-
-                        incorrectLetters.push(input.userInput);
-                        guessesLeft--;
-                    }else{
-                        console.log("\n Correct \n");
-
-                        correctLetters.push(input.userInput);
-                    };
-
-                    chosenWord.log();
-
-                    console.log(`Guesses Left: ${guessesLeft} \n`);
-
-                    console.log(` Letters Guessed: ${incorrectLetters.join(",")} \n`);
-
-                    if (guessesLeft > 0){
+                if (!letterArray.includes(input.userInput) || input.userInput.length> 1){
+                    console.log("\nPlease try again\n");
+                    initializeGame();
+                }else{
+    
+                    if (incorrectLetters.includes(input.userInput) || correctLetters.includes(input.userInput) || input.userInput === ""){
+                        console.log("\n You either already guessed that or didn't enter anything.")
                         initializeGame()
-                    } else {
-                        console.log("You lost the Game!");
-                        resartGame();
+                    } else{
+                        let wordCheckArray = [];
+
+                        chosenWord.userGuess(input.userInput);
+
+                        chosenWord.lettArray.forEach(wordCheck);
+
+                        if(wordCheckArray.join('') === wordComplete.join('')){
+                            console.log("\n Incorrect \n");
+
+                            incorrectLetters.push(input.userInput);
+                            guessesLeft--;
+                        }else{
+                            console.log("\n Correct \n");
+
+                            correctLetters.push(input.userInput);
+                            
+                        };
+
+                        chosenWord.log();
+
+                        console.log(`Guesses Left: ${guessesLeft} \n`);
+
+                        console.log(` Letters Guessed: ${incorrectLetters.join(",")} \n`);
+
+                        if (guessesLeft > 0){
+                            initializeGame()
+                        } else {
+                            console.log("\nYou lost the Game!\n");
+                            resartGame();
+                        }
+                        
+                        function wordCheck(key){
+                            wordCheckArray.push(key.guessed)
+                        }
                     }
-
-
-
                 }
-
             })
     } else{
         console.log("You won!\n");
         resartGame();
+    }
+
+    function completeCheck(key){
+        wordComplete.push(key.guessed);
     }
 }
 

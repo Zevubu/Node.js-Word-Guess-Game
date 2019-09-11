@@ -1,6 +1,7 @@
-let Letter = require("./letter");
+let Letter = require("./letter.js");
 
 let Word = function(answer){
+    // console.log(`Answer ${answer}`)
     // this answer letter array
     this.lettArray = [];
 
@@ -11,7 +12,7 @@ let Word = function(answer){
 
     this.log = function(){
         answerLog = "";
-        for (let l = 0; l < this.lettArray; l++){
+        for (let l = 0; l < this.lettArray.length; l++){
             answerLog += this.lettArray[l] + " ";
         }
         console.log(answerLog + "\n")
@@ -22,7 +23,6 @@ let Word = function(answer){
             this.lettArray[j].guess(input);
         }
     }
-
-}
+};
 
 module.exports = Word;

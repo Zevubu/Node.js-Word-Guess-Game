@@ -1,15 +1,19 @@
-let Letter = function(value){
+function Letter(value) {
     this.letter = value;
     this.guessed = false;
-    this.toString = function(){
+    this.toString = function() {
 
         if(this.letter === " "){
             this.guessed = true;
+            // console.log("space check")
             return " ";
+            
         }else {
             if (this.guessed === false){
+                // console.log("dash check")
                 return "_";
             } else {
+                // console.log(`letter check ${this.letter}`)
                 return this.letter;
             }
         };
@@ -20,8 +24,7 @@ let Letter = function(value){
             this.guessed = true;
         }
     }
-
-}
+};
 
 // Letter("hello")
 
